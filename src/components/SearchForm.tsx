@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { EUROSTAR_STATIONS } from "@/lib/stations";
 import { useBookingStore } from "@/lib/booking-store";
+import StationSelect from "@/components/StationSelect";
 
 interface SearchFormProps {
   selectedOrigin?: string;
@@ -72,18 +72,17 @@ export default function SearchForm({
 
       <div className="px-5 py-4 space-y-3 flex-1">
         {/* Stations */}
-        <div className="space-y-2">
-          <div>
-            <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">From</label>
-            <select value={selectedOrigin || ""} onChange={(e) => onOriginChange(e.target.value)} className={selectClass}>
-              <option value="">Select station</option>
-              {EUROSTAR_STATIONS.map((s) => <option key={s.uic} value={s.uic}>{s.name}</option>)}
-            </select>
-          </div>
+        <div className="space-y-1">
+          <StationSelect
+            value={selectedOrigin || ""}
+            onChange={onOriginChange}
+            label="From"
+            accentColor="var(--color-primary)"
+          />
 
-          <div className="flex justify-center">
+          <div className="flex justify-center -my-1 relative z-10">
             <button onClick={swapStations} title="Swap stations"
-              className="p-1.5 rounded-full border border-[var(--color-neutral-200)] text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-700)] hover:border-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-50)] transition-colors"
+              className="p-1.5 rounded-full border border-[var(--color-neutral-200)] bg-white text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-700)] hover:border-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-50)] transition-colors shadow-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -91,13 +90,12 @@ export default function SearchForm({
             </button>
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">To</label>
-            <select value={selectedDestination || ""} onChange={(e) => onDestinationChange(e.target.value)} className={selectClass}>
-              <option value="">Select station</option>
-              {EUROSTAR_STATIONS.map((s) => <option key={s.uic} value={s.uic}>{s.name}</option>)}
-            </select>
-          </div>
+          <StationSelect
+            value={selectedDestination || ""}
+            onChange={onDestinationChange}
+            label="To"
+            accentColor="var(--color-neutral-900)"
+          />
         </div>
 
         {/* Dates */}
