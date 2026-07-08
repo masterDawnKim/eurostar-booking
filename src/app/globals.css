@@ -96,3 +96,37 @@ body {
   background: var(--color-primary-tint);
   color: var(--color-primary-hover);
 }
+
+/* ===== Mobile App Shell ===== */
+
+/* Safe area insets for notched devices */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Bottom nav spacer — prevents content from hiding behind bottom bar */
+.pb-bottomnav {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Prevent pull-to-refresh / overscroll bounce on mobile */
+html, body {
+  overscroll-behavior: none;
+}
+
+/* Touch action: prevent 300ms tap delay */
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Active press feedback */
+@media (hover: none) {
+  .tap-scale:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+}

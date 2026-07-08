@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import StationMap from "@/components/StationMap";
 import SearchForm from "@/components/SearchForm";
 import JourneyResults from "@/components/JourneyResults";
@@ -22,16 +23,19 @@ export default function Home() {
   const { bookingStep } = useBookingStore();
   const [selectedOrigin, setSelectedOrigin] = useState<string>("");
   const [selectedDestination, setSelectedDestination] = useState<string>("");
+  const pathname = usePathname();
 
   const currentIndex = STEPS.findIndex(
     (s) => s.key === (bookingStep === "confirm" ? "payment" : bookingStep)
   );
 
+  const isHome = pathname === "/" || pathname === "/eurostar-booking" || pathname === "/eurostar-booking/";
+
   return (
-    <div className="min-h-screen bg-[var(--color-neutral-50)] flex flex-col">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-lg border-b border-[var(--color-neutral-200)]/60 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+    <div className="min-h-screen bg-[var(--color-neutral-50)] flex flex-col pb-bottomnav md:pb-0">
+      {/* Desktop Header — hidden on mobile */}
+      <header className="hidden md:block bg-white/80 backdrop-blur-lg border-b border-[var(--color-neutral-200)]/60 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 bg-[var(--color-primary)] rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
               <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
@@ -54,14 +58,28 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Mobile Header — compact, app-like */}
+      <header className="md:hidden bg-white/90 backdrop-blur-xl border-b border-[var(--color-neutral-200)]/40 sticky top-0 z-50 safe-top">
+        <div className="px-4 py-2.5 flex items-center justify-center">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-[var(--color-primary)] rounded-[6px] flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none">
+                <path d="M4 15.5L8 4h3l-2 7h5l-6 9h-3l2-5H4z" fill="currentColor" />
+              </svg>
+            </div>
+            <span className="text-[15px] font-bold text-[var(--color-neutral-900)] tracking-tight">Eurostar</span>
+          </div>
+        </div>
+      </header>
+
       <main className="flex-1">
         {/* ===== SEARCH STEP ===== */}
         {bookingStep === "search" && (
           <>
-            {/* Hero */}
+            {/* Hero — shorter on mobile */}
             <div className="relative overflow-hidden bg-gradient-to-br from-[#1a1f28] via-[#242a35] to-[#2c3340] text-white">
-              {/* Decorative train illustration */}
-              <div className="absolute right-0 bottom-0 opacity-[0.06] pointer-events-none">
+              {/* Decorative train — desktop only */}
+              <div className="absolute right-0 bottom-0 opacity-[0.06] pointer-events-none hidden sm:block">
                 <svg width="600" height="200" viewBox="0 0 600 200" fill="none">
                   <path d="M0 160h500c30 0 50-20 50-50V80c0-30-20-50-50-50H100L60 0H20l20 30H0v130z" fill="white" />
                   <circle cx="120" cy="170" r="25" fill="white" />
@@ -73,26 +91,26 @@ export default function Home() {
                 </svg>
               </div>
 
-              {/* Gradient overlay for smooth transition */}
+              {/* Gradient transition */}
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[var(--color-neutral-50)] to-transparent" />
 
-              <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-16 sm:pb-20">
+              <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-16 pb-12 sm:pb-20">
                 <div className="max-w-xl">
-                  <p className="text-sm font-medium text-[var(--color-primary)] mb-2 tracking-wide uppercase">High-Speed Rail Booking</p>
-                  <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3 leading-tight">
+                  <p className="text-xs sm:text-sm font-medium text-[var(--color-primary)] mb-1 sm:mb-2 tracking-wide uppercase">High-Speed Rail</p>
+                  <h2 className="text-2xl sm:text-5xl font-bold tracking-tight mb-2 sm:mb-3 leading-tight">
                     Travel across<br />Europe by train
                   </h2>
-                  <p className="text-base sm:text-lg text-white/60 max-w-md">
-                    London, Paris, Brussels, Amsterdam, Cologne and more. Up to 300 km/h.
+                  <p className="text-sm sm:text-lg text-white/60 max-w-md">
+                    London, Paris, Brussels, Amsterdam &amp; more.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Map + Form */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-10 relative z-10 pb-8">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-6 sm:-mt-10 relative z-10 pb-4 sm:pb-8">
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
-                {/* Map - hidden on mobile */}
+                {/* Map — desktop only */}
                 <div className="hidden md:block bg-white rounded-2xl border border-[var(--color-neutral-200)] p-4 shadow-sm">
                   <StationMap
                     onSelectOrigin={(s) => setSelectedOrigin(s.uic)}
@@ -114,9 +132,9 @@ export default function Home() {
 
         {/* ===== NON-SEARCH STEPS ===== */}
         {bookingStep !== "search" && (
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
-            {/* Compact Progress - mobile friendly */}
-            <div className="mb-8">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+            {/* Compact Progress */}
+            <div className="mb-6 sm:mb-8">
               <div className="flex items-center gap-1">
                 {STEPS.map((step, i) => (
                   <div key={step.key} className="flex items-center flex-1 last:flex-none">
@@ -167,11 +185,10 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[var(--color-neutral-200)] bg-white mt-auto">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-            {/* Brand */}
+      {/* Desktop Footer — hidden on mobile (bottom nav replaces it) */}
+      <footer className="hidden md:block border-t border-[var(--color-neutral-200)] bg-white mt-auto">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="grid grid-cols-3 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-7 h-7 bg-[var(--color-primary)] rounded-md flex items-center justify-center">
@@ -185,8 +202,6 @@ export default function Home() {
                 Powered by Diplat Korea<br />Eurostar API Integration
               </p>
             </div>
-
-            {/* Routes */}
             <div>
               <h4 className="text-xs font-semibold text-[var(--color-neutral-900)] uppercase tracking-wider mb-2">Popular Routes</h4>
               <ul className="space-y-1 text-xs text-[var(--color-neutral-500)]">
@@ -196,8 +211,6 @@ export default function Home() {
                 <li>Paris &rarr; Brussels &middot; 1h 22m</li>
               </ul>
             </div>
-
-            {/* Info */}
             <div>
               <h4 className="text-xs font-semibold text-[var(--color-neutral-900)] uppercase tracking-wider mb-2">Information</h4>
               <ul className="space-y-1 text-xs text-[var(--color-neutral-500)]">
@@ -207,12 +220,44 @@ export default function Home() {
               </ul>
             </div>
           </div>
-
           <div className="mt-6 pt-4 border-t border-[var(--color-neutral-100)] text-center text-[11px] text-[var(--color-neutral-400)]">
             &copy; 2026 Diplat Korea &middot; Eurostar is a trademark of Eurostar International Ltd.
           </div>
         </div>
       </footer>
+
+      {/* ===== Mobile Bottom Navigation ===== */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-[var(--color-neutral-200)]/60 safe-bottom">
+        <div className="flex items-stretch">
+          <Link
+            href="/"
+            className={`flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale ${
+              isHome
+                ? "text-[var(--color-primary)]"
+                : "text-[var(--color-neutral-400)]"
+            }`}
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={isHome ? 2.5 : 1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span className="text-[10px] font-semibold">Book</span>
+          </Link>
+
+          <Link
+            href="/manage"
+            className={`flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale ${
+              !isHome
+                ? "text-[var(--color-primary)]"
+                : "text-[var(--color-neutral-400)]"
+            }`}
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={!isHome ? 2.5 : 1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+            </svg>
+            <span className="text-[10px] font-semibold">Tickets</span>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
 }

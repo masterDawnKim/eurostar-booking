@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { BookingResponse, BookingDirectionDetail, JourneySearchResponse } from "@/types/eurostar";
 
 type ManageTab = "lookup" | "details" | "exchange" | "cancel";
@@ -13,6 +14,9 @@ export default function ManagePage() {
   const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const pathname = usePathname();
+
+  const isManage = pathname === "/manage" || pathname === "/eurostar-booking/manage";
 
   const lookupBooking = async () => {
     if (!reference.trim()) return;
@@ -86,9 +90,10 @@ export default function ManagePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-neutral-50)]">
-      <header className="bg-white/80 backdrop-blur-lg border-b border-[var(--color-neutral-200)]/60 sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+    <div className="min-h-screen bg-[var(--color-neutral-50)] pb-bottomnav md:pb-0">
+      {/* Desktop Header */}
+      <header className="hidden md:block bg-white/80 backdrop-blur-lg border-b border-[var(--color-neutral-200)]/60 sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 bg-[var(--color-primary)] rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
               <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
@@ -109,7 +114,14 @@ export default function ManagePage() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      {/* Mobile Header */}
+      <header className="md:hidden bg-white/90 backdrop-blur-xl border-b border-[var(--color-neutral-200)]/40 sticky top-0 z-50 safe-top">
+        <div className="px-4 py-2.5 flex items-center justify-center">
+          <span className="text-[15px] font-bold text-[var(--color-neutral-900)]">My Bookings</span>
+        </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 py-6 sm:py-8">
         {error && (
           <div className="mb-6 bg-[var(--color-primary-tint)] border border-[var(--color-primary)] rounded-[var(--radius-card)] p-4 text-[var(--color-primary-hover)] text-sm">
             {error}
@@ -171,6 +183,30 @@ export default function ManagePage() {
           />
         )}
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-[var(--color-neutral-200)]/60 safe-bottom">
+        <div className="flex items-stretch">
+          <Link
+            href="/"
+            className="flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale text-[var(--color-neutral-400)]"
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span className="text-[10px] font-semibold">Book</span>
+          </Link>
+          <Link
+            href="/manage"
+            className="flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale text-[var(--color-primary)]"
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+            </svg>
+            <span className="text-[10px] font-semibold">Tickets</span>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
 }
