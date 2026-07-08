@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  /* LikeLion Design System Tokens */
+  --color-primary: #ff6000;
+  --color-primary-hover: #cc4d00;
+  --color-primary-tint: #ffefe5;
+  --color-primary-light: #fcf4ee;
+
+  --color-neutral-900: #191f28;
+  --color-neutral-700: #333d4b;
+  --color-neutral-500: #8a95a0;
+  --color-neutral-300: #d1d6dc;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-50: #f9fafb;
+
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+
+  --color-bg: #ffffff;
+  --color-text: #191f28;
+  --color-text-secondary: #333d4b;
+  --color-text-muted: #8a95a0;
+
+  --radius-action: 6px;
+  --radius-input: 8px;
+  --radius-card: 12px;
+  --radius-card-lg: 16px;
+  --radius-pill: 9999px;
+
+  --space-unit: 4px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 40px;
+}
+
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-primary: var(--color-primary);
+  --font-sans: "Pretendard", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Pretendard", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
