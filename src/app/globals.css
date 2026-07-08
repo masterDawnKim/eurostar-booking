@@ -4,16 +4,19 @@
 :root {
   /* LikeLion Design System Tokens */
   --color-primary: #ff6000;
-  --color-primary-hover: #cc4d00;
-  --color-primary-tint: #ffefe5;
+  --color-primary-hover: #e05500;
+  --color-primary-tint: #fff4ed;
   --color-primary-light: #fcf4ee;
 
   --color-neutral-900: #191f28;
+  --color-neutral-800: #263040;
   --color-neutral-700: #333d4b;
+  --color-neutral-600: #4e5968;
   --color-neutral-500: #8a95a0;
+  --color-neutral-400: #adb5bd;
   --color-neutral-300: #d1d6dc;
-  --color-neutral-200: #e5e5e5;
-  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e8eb;
+  --color-neutral-100: #f2f4f6;
   --color-neutral-50: #f9fafb;
 
   --color-success: #22c55e;
@@ -22,13 +25,13 @@
 
   --color-bg: #ffffff;
   --color-text: #191f28;
-  --color-text-secondary: #333d4b;
+  --color-text-secondary: #4e5968;
   --color-text-muted: #8a95a0;
 
-  --radius-action: 6px;
-  --radius-input: 8px;
-  --radius-card: 12px;
-  --radius-card-lg: 16px;
+  --radius-action: 8px;
+  --radius-input: 10px;
+  --radius-card: 14px;
+  --radius-card-lg: 18px;
   --radius-pill: 9999px;
 
   --space-unit: 4px;
@@ -45,7 +48,7 @@
   --color-foreground: var(--color-text);
   --color-primary: var(--color-primary);
   --font-sans: "Pretendard", system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-mono: "SF Mono", "Fira Code", monospace;
 }
 
 body {
@@ -53,13 +56,21 @@ body {
   color: var(--color-text);
   font-family: "Pretendard", system-ui, -apple-system, sans-serif;
   font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* Remove focus ring for mouse clicks */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Scrollbar */
@@ -73,4 +84,15 @@ body {
 }
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Smooth transitions */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-primary-tint);
+  color: var(--color-primary-hover);
 }

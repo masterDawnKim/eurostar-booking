@@ -100,12 +100,23 @@ export default function StationMap({
 
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full rounded-[var(--radius-card)] overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #f0f4f8 0%, #e8ecf0 100%)" }}
+        className="w-full rounded-xl overflow-hidden"
       >
-        {/* Water hint */}
-        <ellipse cx={130} cy={200} rx={120} ry={160} fill="#dce8f0" opacity={0.5} />
-        <ellipse cx={750} cy={100} rx={80} ry={100} fill="#dce8f0" opacity={0.3} />
+        {/* Sea background */}
+        <rect width={width} height={height} fill="#e8eef4" rx={12} />
+
+        {/* Simplified land masses */}
+        {/* Great Britain */}
+        <path d={`M${toSvgX(-1.5)} ${toSvgY(50.5)} L${toSvgX(-0.5)} ${toSvgY(50.8)} L${toSvgX(0.5)} ${toSvgY(51)} L${toSvgX(1.2)} ${toSvgY(51.3)} L${toSvgX(1)} ${toSvgY(52)} L${toSvgX(0.5)} ${toSvgY(52.8)} L${toSvgX(-0.5)} ${toSvgY(53)} L${toSvgX(-1.8)} ${toSvgY(53)} L${toSvgX(-2)} ${toSvgY(52)} L${toSvgX(-1.8)} ${toSvgY(51)} Z`}
+          fill="#f5f3ef" stroke="#d4cfc6" strokeWidth={1} />
+
+        {/* Continental Europe */}
+        <path d={`M${toSvgX(1)} ${toSvgY(51)} L${toSvgX(2)} ${toSvgY(51.2)} L${toSvgX(3.5)} ${toSvgY(51.5)} L${toSvgX(5)} ${toSvgY(51.8)} L${toSvgX(6.5)} ${toSvgY(52)} L${toSvgX(8)} ${toSvgY(52)} L${toSvgX(9)} ${toSvgY(51.5)} L${toSvgX(9)} ${toSvgY(50)} L${toSvgX(8)} ${toSvgY(49)} L${toSvgX(7.5)} ${toSvgY(48)} L${toSvgX(7)} ${toSvgY(47)} L${toSvgX(6)} ${toSvgY(46)} L${toSvgX(5.5)} ${toSvgY(44)} L${toSvgX(5)} ${toSvgY(43)} L${toSvgX(4)} ${toSvgY(43)} L${toSvgX(3)} ${toSvgY(43.5)} L${toSvgX(2)} ${toSvgY(44)} L${toSvgX(0.5)} ${toSvgY(45)} L${toSvgX(-0.5)} ${toSvgY(46)} L${toSvgX(-1)} ${toSvgY(47)} L${toSvgX(-1.5)} ${toSvgY(48)} L${toSvgX(-1.8)} ${toSvgY(48.8)} L${toSvgX(-1)} ${toSvgY(49)} L${toSvgX(0)} ${toSvgY(49.5)} L${toSvgX(1)} ${toSvgY(50)} Z`}
+          fill="#f5f3ef" stroke="#d4cfc6" strokeWidth={1} />
+
+        {/* Channel Tunnel hint */}
+        <line x1={toSvgX(0.5)} y1={toSvgY(51)} x2={toSvgX(1.5)} y2={toSvgY(50.8)}
+          stroke="var(--color-primary)" strokeWidth={2} strokeDasharray="4 3" opacity={0.3} />
 
         {/* Grid lines */}
         {[44, 46, 48, 50, 52].map((lat) => (
