@@ -87,19 +87,24 @@ export default function ManagePage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-neutral-50)]">
-      <header className="bg-white border-b border-[var(--color-neutral-200)]">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80">
-            <div className="w-8 h-8 bg-[var(--color-primary)] rounded-[var(--radius-action)] flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      <header className="bg-white border-b border-[var(--color-neutral-200)] sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 bg-[var(--color-primary)] rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
+                <path d="M4 15.5L8 4h3l-2 7h5l-6 9h-3l2-5H4z" fill="currentColor" />
               </svg>
             </div>
-            <h1 className="text-xl font-semibold text-[var(--color-neutral-900)]">Eurostar</h1>
+            <div>
+              <span className="text-lg font-bold text-[var(--color-neutral-900)] tracking-tight">Eurostar</span>
+              <span className="text-[10px] text-[var(--color-neutral-500)] block -mt-1 tracking-widest uppercase">by Diplat</span>
+            </div>
           </Link>
-          <nav className="flex gap-4 text-sm">
-            <Link href="/" className="text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-900)] transition-colors">New Booking</Link>
-            <span className="text-[var(--color-primary)] font-medium">My Bookings</span>
+          <nav className="flex items-center gap-1">
+            <Link href="/"
+              className="px-3 py-1.5 text-sm text-[var(--color-neutral-600)] hover:text-[var(--color-neutral-900)] hover:bg-[var(--color-neutral-100)] rounded-[var(--radius-action)] transition-colors"
+            >New Booking</Link>
+            <span className="px-3 py-1.5 text-sm text-[var(--color-primary)] font-medium">My Bookings</span>
           </nav>
         </div>
       </header>

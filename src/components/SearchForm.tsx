@@ -46,133 +46,134 @@ export default function SearchForm({
     }
   };
 
+  const selectClass = "w-full px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[15px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
+
   return (
-    <div className="bg-white rounded-[var(--radius-card)] border border-[var(--color-neutral-200)] p-6 space-y-4">
-      {/* Trip type - pill tabs */}
-      <div className="flex gap-2">
-        {(["single", "return"] as const).map((type) => (
-          <button
-            key={type}
-            onClick={() => setTripType(type)}
-            className={`px-4 py-2 rounded-[9999px] text-[15px] transition-colors ${
-              tripType === type
-                ? "bg-[var(--color-neutral-900)] text-white"
-                : "bg-white text-[var(--color-neutral-700)] border border-[var(--color-neutral-300)]"
-            }`}
-          >
-            {type === "single" ? "One Way" : "Return"}
-          </button>
-        ))}
-      </div>
-
-      {/* Stations */}
-      <div className="grid grid-cols-[1fr_auto_1fr] gap-2 items-end">
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">From</label>
-          <select
-            value={selectedOrigin || ""}
-            onChange={(e) => onOriginChange(e.target.value)}
-            className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-neutral-700)]"
-          >
-            <option value="">Select station</option>
-            {EUROSTAR_STATIONS.map((s) => (
-              <option key={s.uic} value={s.uic}>{s.name}</option>
-            ))}
-          </select>
-        </div>
-
-        <button
-          onClick={swapStations}
-          className="p-3 rounded-[var(--radius-input)] border border-[var(--color-neutral-300)] text-[var(--color-neutral-500)] hover:bg-[var(--color-neutral-50)] transition-colors"
-          title="Swap stations"
-        >
-          &#8644;
-        </button>
-
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">To</label>
-          <select
-            value={selectedDestination || ""}
-            onChange={(e) => onDestinationChange(e.target.value)}
-            className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-neutral-700)]"
-          >
-            <option value="">Select station</option>
-            {EUROSTAR_STATIONS.map((s) => (
-              <option key={s.uic} value={s.uic}>{s.name}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Dates */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">Departure</label>
-          <input
-            type="date"
-            value={searchParams.outboundDate || ""}
-            onChange={(e) => setSearchParams({ outboundDate: e.target.value })}
-            min={new Date().toISOString().split("T")[0]}
-            className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] text-[var(--color-neutral-900)] focus:border-[var(--color-neutral-700)]"
-          />
-        </div>
-        {tripType === "return" && (
-          <div>
-            <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">Return</label>
-            <input
-              type="date"
-              value={searchParams.inboundDate || ""}
-              onChange={(e) => setSearchParams({ inboundDate: e.target.value })}
-              min={searchParams.outboundDate || new Date().toISOString().split("T")[0]}
-              className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] text-[var(--color-neutral-900)] focus:border-[var(--color-neutral-700)]"
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Passengers */}
-      <div className="grid grid-cols-3 gap-4">
-        {[
-          { label: "Adults", key: "adults" as const, options: [1,2,3,4,5,6,7,8,9], fallback: 1 },
-          { label: "Youth (12-25)", key: "youths" as const, options: [0,1,2,3,4], fallback: 0 },
-          { label: "Children (4-11)", key: "children" as const, options: [0,1,2,3,4], fallback: 0 },
-        ].map(({ label, key, options, fallback }) => (
-          <div key={key}>
-            <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">{label}</label>
-            <select
-              value={searchParams[key] ?? fallback}
-              onChange={(e) => setSearchParams({ [key]: parseInt(e.target.value) })}
-              className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] text-[var(--color-neutral-900)] focus:border-[var(--color-neutral-700)]"
+    <div className="bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] shadow-sm flex flex-col">
+      {/* Header */}
+      <div className="px-5 pt-5 pb-4 border-b border-[var(--color-neutral-100)]">
+        <h3 className="text-base font-semibold text-[var(--color-neutral-900)] mb-3">Search Trains</h3>
+        <div className="flex gap-1 p-0.5 bg-[var(--color-neutral-100)] rounded-full w-fit">
+          {(["single", "return"] as const).map((type) => (
+            <button
+              key={type}
+              onClick={() => setTripType(type)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                tripType === type
+                  ? "bg-white text-[var(--color-neutral-900)] shadow-sm"
+                  : "text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-700)]"
+              }`}
             >
-              {options.map((n) => <option key={n} value={n}>{n}</option>)}
+              {type === "single" ? "One Way" : "Return"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="px-5 py-4 space-y-3 flex-1">
+        {/* Stations */}
+        <div className="space-y-2">
+          <div>
+            <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">From</label>
+            <select value={selectedOrigin || ""} onChange={(e) => onOriginChange(e.target.value)} className={selectClass}>
+              <option value="">Select station</option>
+              {EUROSTAR_STATIONS.map((s) => <option key={s.uic} value={s.uic}>{s.name}</option>)}
             </select>
           </div>
-        ))}
+
+          <div className="flex justify-center">
+            <button onClick={swapStations} title="Swap stations"
+              className="p-1.5 rounded-full border border-[var(--color-neutral-200)] text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-700)] hover:border-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-50)] transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+              </svg>
+            </button>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">To</label>
+            <select value={selectedDestination || ""} onChange={(e) => onDestinationChange(e.target.value)} className={selectClass}>
+              <option value="">Select station</option>
+              {EUROSTAR_STATIONS.map((s) => <option key={s.uic} value={s.uic}>{s.name}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {/* Dates */}
+        <div className={`grid gap-3 ${tripType === "return" ? "grid-cols-2" : "grid-cols-1"}`}>
+          <div>
+            <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">Depart</label>
+            <input type="date" value={searchParams.outboundDate || ""}
+              onChange={(e) => setSearchParams({ outboundDate: e.target.value })}
+              min={new Date().toISOString().split("T")[0]}
+              className={selectClass}
+            />
+          </div>
+          {tripType === "return" && (
+            <div>
+              <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">Return</label>
+              <input type="date" value={searchParams.inboundDate || ""}
+                onChange={(e) => setSearchParams({ inboundDate: e.target.value })}
+                min={searchParams.outboundDate || new Date().toISOString().split("T")[0]}
+                className={selectClass}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Passengers */}
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { label: "Adults", key: "adults" as const, options: [1,2,3,4,5,6,7,8,9], fallback: 1 },
+            { label: "Youth", key: "youths" as const, options: [0,1,2,3,4], fallback: 0 },
+            { label: "Child", key: "children" as const, options: [0,1,2,3,4], fallback: 0 },
+          ].map(({ label, key, options, fallback }) => (
+            <div key={key}>
+              <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">{label}</label>
+              <select value={searchParams[key] ?? fallback}
+                onChange={(e) => setSearchParams({ [key]: parseInt(e.target.value) })}
+                className={selectClass}
+              >
+                {options.map((n) => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </div>
+          ))}
+        </div>
+
+        {/* Currency */}
+        <div>
+          <label className="block text-xs font-medium text-[var(--color-neutral-500)] uppercase tracking-wider mb-1">Currency</label>
+          <select value={searchParams.currency || "GBP"}
+            onChange={(e) => setSearchParams({ currency: e.target.value })}
+            className={selectClass}
+          >
+            <option value="GBP">GBP</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
       </div>
 
-      {/* Currency */}
-      <div>
-        <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">Currency</label>
-        <select
-          value={searchParams.currency || "GBP"}
-          onChange={(e) => setSearchParams({ currency: e.target.value })}
-          className="w-full px-3 py-3 border border-[var(--color-neutral-300)] rounded-[var(--radius-input)] text-[var(--color-neutral-900)] focus:border-[var(--color-neutral-700)]"
+      {/* CTA */}
+      <div className="px-5 pb-5">
+        {error && <p className="text-[var(--color-error)] text-sm mb-2">{error}</p>}
+        <button
+          onClick={handleSearch}
+          disabled={isSearching}
+          className="w-full py-3 bg-[var(--color-primary)] text-white rounded-lg text-[15px] font-semibold hover:bg-[var(--color-primary-hover)] active:scale-[0.98] disabled:bg-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-500)] transition-all shadow-sm hover:shadow-md"
         >
-          <option value="GBP">GBP (British Pound)</option>
-          <option value="EUR">EUR (Euro)</option>
-          <option value="USD">USD (US Dollar)</option>
-        </select>
+          {isSearching ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Searching...
+            </span>
+          ) : "Search Trains"}
+        </button>
       </div>
-
-      {error && <p className="text-[var(--color-error)] text-sm">{error}</p>}
-
-      <button
-        onClick={handleSearch}
-        disabled={isSearching}
-        className="w-full py-3 bg-[var(--color-primary)] text-white rounded-[var(--radius-action)] text-[16px] font-semibold hover:bg-[var(--color-primary-hover)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-500)] transition-colors"
-      >
-        {isSearching ? "Searching..." : "Search Trains"}
-      </button>
     </div>
   );
 }
