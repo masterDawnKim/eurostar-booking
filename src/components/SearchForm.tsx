@@ -47,10 +47,10 @@ export default function SearchForm({
     }
   };
 
-  const inputClass = "w-full px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
+  const inputClass = "w-full min-w-0 box-border px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
 
   return (
-    <div className="bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] shadow-sm flex flex-col">
+    <div className="bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] shadow-sm flex flex-col overflow-hidden">
       {/* Header */}
       <div className="px-5 pt-5 pb-3">
         <div className="flex items-center justify-between mb-3">
@@ -103,7 +103,7 @@ export default function SearchForm({
 
         {/* Dates */}
         <div className={`grid gap-3 ${tripType === "return" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
-          <div>
+          <div className="min-w-0">
             <label className="block text-[13px] font-medium text-[var(--color-neutral-600)] mb-1">Departure</label>
             <input type="date" value={searchParams.outboundDate || ""}
               onChange={(e) => setSearchParams({ outboundDate: e.target.value })}
@@ -112,7 +112,7 @@ export default function SearchForm({
             />
           </div>
           {tripType === "return" && (
-            <div>
+            <div className="min-w-0">
               <label className="block text-[13px] font-medium text-[var(--color-neutral-600)] mb-1">Return</label>
               <input type="date" value={searchParams.inboundDate || ""}
                 onChange={(e) => setSearchParams({ inboundDate: e.target.value })}

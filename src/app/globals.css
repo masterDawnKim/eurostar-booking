@@ -123,6 +123,14 @@ a, button, [role="button"] {
   touch-action: manipulation;
 }
 
+/* Prevent date inputs from overflowing on mobile */
+input[type="date"],
+input[type="time"] {
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* Active press feedback */
 @media (hover: none) {
   .tap-scale:active {
