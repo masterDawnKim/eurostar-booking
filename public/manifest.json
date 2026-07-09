@@ -1,0 +1,23 @@
+{
+  "name": "Eurostar Booking",
+  "short_name": "Eurostar",
+  "description": "Book high-speed trains across Europe",
+  "start_url": "/eurostar-booking/",
+  "scope": "/eurostar-booking/",
+  "display": "standalone",
+  "background_color": "#191f28",
+  "theme_color": "#191f28",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/eurostar-booking/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/eurostar-booking/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

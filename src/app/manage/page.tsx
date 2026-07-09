@@ -189,7 +189,7 @@ export default function ManagePage() {
         <div className="flex items-stretch">
           <Link
             href="/"
-            className="flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale text-[var(--color-neutral-400)]"
+            className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 tap-scale min-h-[52px] text-[var(--color-neutral-400)]"
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -198,7 +198,7 @@ export default function ManagePage() {
           </Link>
           <Link
             href="/manage"
-            className="flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale text-[var(--color-primary)]"
+            className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 tap-scale min-h-[52px] text-[var(--color-primary)]"
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
@@ -220,23 +220,21 @@ function BookingDetails({ booking, onExchange, onCancel, onBack }: {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="space-y-3">
         <div>
           <button onClick={onBack} className="text-sm text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-700)] mb-1">&larr; Back</button>
-          <h2 className="text-2xl font-semibold text-[var(--color-neutral-900)]">Booking {booking.reference}</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-[var(--color-neutral-900)]">Booking {booking.reference}</h2>
         </div>
-        <div className="flex gap-2">
-          {isConfirmed && hasActiveItems(booking.outbound) && (
-            <>
-              <button onClick={onExchange}
-                className="px-4 py-2 bg-[var(--color-neutral-900)] text-white rounded-[var(--radius-action)] text-sm font-semibold hover:opacity-90"
-              >Change Journey</button>
-              <button onClick={onCancel}
-                className="px-4 py-2 bg-[var(--color-error)] text-white rounded-[var(--radius-action)] text-sm font-semibold hover:opacity-90"
-              >Cancel / Refund</button>
-            </>
-          )}
-        </div>
+        {isConfirmed && hasActiveItems(booking.outbound) && (
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button onClick={onExchange}
+              className="flex-1 sm:flex-none px-4 py-2.5 bg-[var(--color-neutral-900)] text-white rounded-[var(--radius-action)] text-sm font-semibold hover:opacity-90"
+            >Change Journey</button>
+            <button onClick={onCancel}
+              className="flex-1 sm:flex-none px-4 py-2.5 bg-[var(--color-error)] text-white rounded-[var(--radius-action)] text-sm font-semibold hover:opacity-90"
+            >Cancel / Refund</button>
+          </div>
+        )}
       </div>
 
       {booking.balance && (
@@ -303,7 +301,7 @@ function DirectionCard({ label, segments }: { label: string; segments?: BookingD
             <span>{seg.destination.shortName}</span>
           </div>
           <div className="text-xs text-[var(--color-neutral-500)] mt-1">
-            {seg.timing.departs} &ndash; {seg.timing.arrives} ({seg.timing.duration} min)
+            {seg.timing.departs} &ndash; {seg.timing.arrives} ({Math.floor(seg.timing.duration / 60)}h {seg.timing.duration % 60}m)
           </div>
           <div className="mt-2 space-y-1">
             {seg.products.map((p) => (
@@ -394,6 +392,7 @@ function CancelFlow({ booking, onConfirmCancel, onRevert, onBack, loading }: {
   booking: BookingResponse; onConfirmCancel: (itemRefs?: string[]) => void; onRevert: () => void; onBack: () => void; loading: boolean;
 }) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const allItems = [
     ...(booking.outbound?.flatMap((s) => s.products) ?? []),
@@ -441,7 +440,7 @@ function CancelFlow({ booking, onConfirmCancel, onRevert, onBack, loading }: {
         )}
 
         <div className="mt-6 flex gap-3">
-          <button onClick={() => onConfirmCancel(selectedItems.length > 0 ? selectedItems : undefined)}
+          <button onClick={() => setShowConfirm(true)}
             disabled={loading}
             className="flex-1 bg-[var(--color-error)] text-white py-3 rounded-[var(--radius-action)] font-semibold hover:opacity-90 disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-500)]"
           >
@@ -455,6 +454,39 @@ function CancelFlow({ booking, onConfirmCancel, onRevert, onBack, loading }: {
             Revert
           </button>
         </div>
+
+        {/* Confirmation Dialog */}
+        {showConfirm && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={() => setShowConfirm(false)}>
+            <div className="bg-white rounded-[var(--radius-card-lg)] shadow-xl max-w-sm w-full p-6" onClick={(e) => e.stopPropagation()}>
+              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-[var(--color-error)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-[var(--color-neutral-900)] text-center mb-2">
+                {selectedItems.length > 0 ? "Cancel Selected Items?" : "Cancel Entire Booking?"}
+              </h3>
+              <p className="text-sm text-[var(--color-neutral-500)] text-center mb-6">
+                {selectedItems.length > 0
+                  ? `You are about to cancel ${selectedItems.length} item${selectedItems.length > 1 ? "s" : ""}. This action may not be reversible.`
+                  : "This will cancel your entire booking. Refund amounts depend on fare conditions."}
+              </p>
+              <div className="flex gap-3">
+                <button onClick={() => setShowConfirm(false)}
+                  className="flex-1 py-2.5 border border-[var(--color-neutral-300)] text-[var(--color-neutral-700)] rounded-[var(--radius-action)] font-semibold hover:bg-[var(--color-neutral-50)]"
+                >
+                  Go Back
+                </button>
+                <button onClick={() => { setShowConfirm(false); onConfirmCancel(selectedItems.length > 0 ? selectedItems : undefined); }}
+                  className="flex-1 py-2.5 bg-[var(--color-error)] text-white rounded-[var(--radius-action)] font-semibold hover:opacity-90"
+                >
+                  Confirm Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="bg-[var(--color-primary-light)] border border-[var(--color-primary-tint)] rounded-[var(--radius-card)] p-4 text-sm text-[var(--color-primary-hover)]">

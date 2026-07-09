@@ -143,16 +143,18 @@ export default function SearchForm({
                     <button
                       onClick={() => val > min && setSearchParams({ [key]: val - 1 })}
                       disabled={val <= min}
+                      aria-label={`Decrease ${label}`}
                       className="w-8 h-8 rounded-full border border-[var(--color-neutral-200)] flex items-center justify-center text-[var(--color-neutral-600)] hover:bg-[var(--color-neutral-50)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" d="M5 12h14" />
                       </svg>
                     </button>
-                    <span className="w-5 text-center text-sm font-semibold text-[var(--color-neutral-900)]">{val}</span>
+                    <span className="w-5 text-center text-sm font-semibold text-[var(--color-neutral-900)]" aria-live="polite">{val}</span>
                     <button
                       onClick={() => val < max && setSearchParams({ [key]: val + 1 })}
                       disabled={val >= max}
+                      aria-label={`Increase ${label}`}
                       className="w-8 h-8 rounded-full border border-[var(--color-neutral-200)] flex items-center justify-center text-[var(--color-neutral-600)] hover:bg-[var(--color-neutral-50)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

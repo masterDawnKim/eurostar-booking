@@ -78,6 +78,9 @@ export default function StationSelect({ value, onChange, label, accentColor = "v
       <button
         type="button"
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={`${label}: ${selected ? selected.name : "Select station"}`}
         className={`w-full flex items-center gap-3 px-3 py-2.5 border rounded-[var(--radius-input)] bg-white text-left transition-all outline-none ${
           open
             ? "border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]"
@@ -105,7 +108,7 @@ export default function StationSelect({ value, onChange, label, accentColor = "v
       </button>
 
       {open && (
-        <div className="absolute z-50 left-0 right-0 mt-1 bg-white border border-[var(--color-neutral-200)] rounded-[var(--radius-card)] shadow-lg overflow-hidden">
+        <div role="listbox" aria-label={`${label} stations`} className="absolute z-50 left-0 right-0 mt-1 bg-white border border-[var(--color-neutral-200)] rounded-[var(--radius-card)] shadow-lg overflow-hidden">
           {/* Search */}
           <div className="p-2 border-b border-[var(--color-neutral-100)]">
             <div className="flex items-center gap-2 px-2.5 py-2 bg-[var(--color-neutral-50)] rounded-[var(--radius-input)]">
@@ -145,6 +148,8 @@ export default function StationSelect({ value, onChange, label, accentColor = "v
                   return (
                     <button
                       key={station.uic}
+                      role="option"
+                      aria-selected={isSelected}
                       onClick={() => handleSelect(station)}
                       className={`w-full text-left px-3 py-2 flex items-center gap-3 transition-colors ${
                         isSelected

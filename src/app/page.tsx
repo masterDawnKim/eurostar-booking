@@ -12,11 +12,11 @@ import BookingConfirmation from "@/components/BookingConfirmation";
 import { useBookingStore } from "@/lib/booking-store";
 
 const STEPS = [
-  { key: "search", label: "Search", short: "1" },
-  { key: "select", label: "Select", short: "2" },
-  { key: "passengers", label: "Passengers", short: "3" },
-  { key: "payment", label: "Payment", short: "4" },
-  { key: "done", label: "Confirmed", short: "5" },
+  { key: "search", label: "Search", mobileLabel: "Search", short: "1" },
+  { key: "select", label: "Select Train", mobileLabel: "Train", short: "2" },
+  { key: "passengers", label: "Passengers", mobileLabel: "Info", short: "3" },
+  { key: "payment", label: "Payment", mobileLabel: "Pay", short: "4" },
+  { key: "done", label: "Confirmed", mobileLabel: "Done", short: "5" },
 ] as const;
 
 export default function Home() {
@@ -94,13 +94,13 @@ export default function Home() {
               {/* Gradient transition */}
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[var(--color-neutral-50)] to-transparent" />
 
-              <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-16 pb-12 sm:pb-20">
+              <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-4 sm:pt-16 pb-10 sm:pb-20">
                 <div className="max-w-xl">
-                  <p className="text-xs sm:text-sm font-medium text-[var(--color-primary)] mb-1 sm:mb-2 tracking-wide uppercase">High-Speed Rail</p>
-                  <h2 className="text-2xl sm:text-5xl font-bold tracking-tight mb-2 sm:mb-3 leading-tight">
+                  <p className="text-[10px] sm:text-sm font-medium text-[var(--color-primary)] mb-0.5 sm:mb-2 tracking-wide uppercase">High-Speed Rail</p>
+                  <h2 className="text-xl sm:text-5xl font-bold tracking-tight mb-1.5 sm:mb-3 leading-tight">
                     Travel across<br />Europe by train
                   </h2>
-                  <p className="text-sm sm:text-lg text-white/60 max-w-md">
+                  <p className="text-xs sm:text-lg text-white/60 max-w-md">
                     London, Paris, Brussels, Amsterdam &amp; more.
                   </p>
                 </div>
@@ -162,7 +162,7 @@ export default function Home() {
                         }`}
                       >
                         <span className="hidden sm:inline">{step.label}</span>
-                        <span className="sm:hidden">{step.label.slice(0, 3)}</span>
+                        <span className="sm:hidden">{step.mobileLabel}</span>
                       </span>
                     </div>
                     {i < STEPS.length - 1 && (
@@ -231,7 +231,7 @@ export default function Home() {
         <div className="flex items-stretch">
           <Link
             href="/"
-            className={`flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale ${
+            className={`flex-1 flex flex-col items-center justify-center py-3 gap-0.5 tap-scale min-h-[52px] ${
               isHome
                 ? "text-[var(--color-primary)]"
                 : "text-[var(--color-neutral-400)]"
@@ -245,7 +245,7 @@ export default function Home() {
 
           <Link
             href="/manage"
-            className={`flex-1 flex flex-col items-center justify-center py-2 pt-2.5 gap-0.5 tap-scale ${
+            className={`flex-1 flex flex-col items-center justify-center py-3 gap-0.5 tap-scale min-h-[52px] ${
               !isHome
                 ? "text-[var(--color-primary)]"
                 : "text-[var(--color-neutral-400)]"
