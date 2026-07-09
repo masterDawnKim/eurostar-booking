@@ -102,7 +102,7 @@ export default function SearchForm({
         </div>
 
         {/* Dates */}
-        <div className={`grid gap-3 ${tripType === "return" ? "grid-cols-2" : "grid-cols-1"}`}>
+        <div className={`grid gap-3 ${tripType === "return" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
           <div>
             <label className="block text-[13px] font-medium text-[var(--color-neutral-600)] mb-1">Departure</label>
             <input type="date" value={searchParams.outboundDate || ""}
