@@ -105,11 +105,14 @@ export const useBookingStore = create<BookingState>((set, get) => ({
     if (!selectedOutbound) return;
 
     const outLeg = selectedOutbound.fare.legs[selectedOutbound.legIndex];
-    const passengerCount = (searchParams.adults || 1) + (searchParams.children || 0);
+    const adultCount = searchParams.adults || 1;
+    const youthCount = searchParams.youths || 0;
+    const childCount = searchParams.children || 0;
+    const passengerCount = adultCount + youthCount + childCount;
 
     const passengers = Array.from({ length: passengerCount }, (_, i) => ({
       id: `passenger_${i + 1}`,
-      type: (i < (searchParams.adults || 1) ? "AD" : "CH") as "AD" | "CH",
+      type: (i < adultCount ? "AD" : i < adultCount + youthCount ? "YH" : "CH") as "AD" | "YH" | "CH",
     }));
 
     const segments: {
@@ -257,6 +260,7 @@ export const useBookingStore = create<BookingState>((set, get) => ({
 
   reset: () =>
     set({
+      searchParams: { adults: 1, children: 0, infants: 0, currency: "GBP" },
       searchResults: null,
       selectedOutbound: null,
       selectedInbound: null,

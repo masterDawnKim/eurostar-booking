@@ -23,17 +23,60 @@ export default function BookingConfirmation() {
         <p className="text-2xl sm:text-3xl font-mono font-semibold text-[var(--color-primary-hover)] mt-0.5">{booking.reference}</p>
       </div>
 
-      <div className="text-left max-w-md mx-auto space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-        <h3 className="font-semibold text-[var(--color-neutral-900)] text-sm sm:text-base">Passengers:</h3>
-        {booking.passengers.map((p) => (
-          <div key={p.id} className="flex flex-col sm:flex-row sm:justify-between text-sm gap-0.5">
-            <span className="text-[var(--color-neutral-700)] font-medium">{p.firstName} {p.lastName}</span>
-            <span className="text-[var(--color-neutral-500)] text-xs sm:text-sm">{p.email}</span>
+      {/* Journey Details */}
+      <div className="text-left max-w-md mx-auto space-y-4 mb-6 sm:mb-8">
+        {booking.outbound && booking.outbound.length > 0 && (
+          <div className="bg-[var(--color-neutral-50)] rounded-[var(--radius-card)] p-4">
+            <h3 className="font-semibold text-[var(--color-neutral-900)] text-sm mb-2">Outbound</h3>
+            {booking.outbound.map((seg, i) => (
+              <div key={i} className="flex items-center justify-between text-sm">
+                <div>
+                  <span className="font-medium text-[var(--color-neutral-900)]">{seg.origin.shortName}</span>
+                  <span className="text-[var(--color-neutral-400)] mx-1.5">&rarr;</span>
+                  <span className="font-medium text-[var(--color-neutral-900)]">{seg.destination.shortName}</span>
+                </div>
+                <div className="text-right text-xs text-[var(--color-neutral-500)]">
+                  <div>{seg.timing.departs} &ndash; {seg.timing.arrives}</div>
+                  <div className="font-mono text-[var(--color-primary)]">{seg.serviceName}</div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
+
+        {booking.inbound && booking.inbound.length > 0 && (
+          <div className="bg-[var(--color-neutral-50)] rounded-[var(--radius-card)] p-4">
+            <h3 className="font-semibold text-[var(--color-neutral-900)] text-sm mb-2">Return</h3>
+            {booking.inbound.map((seg, i) => (
+              <div key={i} className="flex items-center justify-between text-sm">
+                <div>
+                  <span className="font-medium text-[var(--color-neutral-900)]">{seg.origin.shortName}</span>
+                  <span className="text-[var(--color-neutral-400)] mx-1.5">&rarr;</span>
+                  <span className="font-medium text-[var(--color-neutral-900)]">{seg.destination.shortName}</span>
+                </div>
+                <div className="text-right text-xs text-[var(--color-neutral-500)]">
+                  <div>{seg.timing.departs} &ndash; {seg.timing.arrives}</div>
+                  <div className="font-mono text-[var(--color-primary)]">{seg.serviceName}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div>
+          <h3 className="font-semibold text-[var(--color-neutral-900)] text-sm sm:text-base">Passengers:</h3>
+          <div className="space-y-1 mt-2">
+            {booking.passengers.map((p) => (
+              <div key={p.id} className="flex flex-col sm:flex-row sm:justify-between text-sm gap-0.5">
+                <span className="text-[var(--color-neutral-700)] font-medium">{p.firstName} {p.lastName}</span>
+                <span className="text-[var(--color-neutral-500)] text-xs sm:text-sm">{p.email}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {booking.fulfillmentMethod?.map((fm) => (
-          <div key={fm.code} className="text-sm text-[var(--color-neutral-700)] mt-3 sm:mt-4 pt-3 border-t border-[var(--color-neutral-200)]">
+          <div key={fm.code} className="text-sm text-[var(--color-neutral-700)] pt-3 border-t border-[var(--color-neutral-200)]">
             <strong>Ticket delivery:</strong> {fm.name}
           </div>
         ))}

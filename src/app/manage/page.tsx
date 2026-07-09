@@ -96,7 +96,7 @@ export default function ManagePage() {
         <div className="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 bg-[var(--color-primary)] rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 15.5L8 4h3l-2 7h5l-6 9h-3l2-5H4z" fill="currentColor" />
               </svg>
             </div>
@@ -123,7 +123,7 @@ export default function ManagePage() {
 
       <main className="max-w-4xl mx-auto px-4 py-6 sm:py-8">
         {error && (
-          <div className="mb-6 bg-[var(--color-primary-tint)] border border-[var(--color-primary)] rounded-[var(--radius-card)] p-4 text-[var(--color-primary-hover)] text-sm">
+          <div className="mb-6 bg-red-50 border border-[var(--color-error)] rounded-[var(--radius-card)] p-4 text-[var(--color-error)] text-sm">
             {error}
             <button onClick={() => setError("")} className="ml-2 underline">Dismiss</button>
           </div>
@@ -146,7 +146,7 @@ export default function ManagePage() {
                 <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">Last Name</label>
                 <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}
                   placeholder="Customer last name"
-                  className="w-full rounded-[var(--radius-input)] border border-[var(--color-neutral-300)] px-3 py-3 focus:border-[var(--color-neutral-700)]"
+                  className="w-full rounded-[var(--radius-input)] border border-[var(--color-neutral-300)] px-3 py-3 text-[16px] focus:border-[var(--color-neutral-700)]"
                 />
               </div>
               <button onClick={lookupBooking} disabled={loading || !reference.trim()}
@@ -240,7 +240,7 @@ function BookingDetails({ booking, onExchange, onCancel, onBack }: {
       {booking.balance && (
         <div className="bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] p-5">
           <h3 className="font-semibold text-[var(--color-neutral-900)] mb-3">Payment Summary</h3>
-          <div className="grid grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
               <span className="text-[var(--color-neutral-500)]">Total</span>
               <p className="font-semibold text-lg">{booking.balance.currency} {booking.balance.totalAmount.toFixed(2)}</p>
@@ -364,7 +364,7 @@ function ExchangeFlow({ booking, onBookingUpdate, onBack, onError }: {
             <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1">New Travel Date</label>
             <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)}
               min={new Date().toISOString().split("T")[0]}
-              className="w-full rounded-[var(--radius-input)] border border-[var(--color-neutral-300)] px-3 py-3 focus:border-[var(--color-neutral-700)]"
+              className="w-full rounded-[var(--radius-input)] border border-[var(--color-neutral-300)] px-3 py-3 text-[16px] focus:border-[var(--color-neutral-700)]"
             />
           </div>
           <button onClick={searchExchange} disabled={searching || !newDate}
@@ -433,7 +433,7 @@ function CancelFlow({ booking, onConfirmCancel, onRevert, onBack, loading }: {
                   <span className="font-medium">{item.name}</span>
                   <span className="text-[var(--color-neutral-500)] ml-2">{item.passengerId}</span>
                 </div>
-                <span className="text-sm font-medium">{item.price.toFixed(2)}</span>
+                <span className="text-sm font-medium">{booking.balance?.currency || ""} {item.price.toFixed(2)}</span>
               </label>
             ))}
           </div>

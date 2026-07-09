@@ -72,7 +72,11 @@ export default function JourneyResults() {
           </h2>
           {!inboundJourneys || inboundJourneys.length === 0 ? (
             <div className="text-center py-10 bg-white rounded-[var(--radius-card)] border border-[var(--color-neutral-200)]">
+              <svg className="w-12 h-12 mx-auto text-[var(--color-neutral-300)] mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
               <p className="text-[var(--color-neutral-500)] text-sm">No return trains found for this date.</p>
+              <p className="text-[var(--color-neutral-400)] text-xs mt-1">Try a different return date.</p>
             </div>
           ) : (
             <div className="space-y-2">

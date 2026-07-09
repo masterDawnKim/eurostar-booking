@@ -87,7 +87,7 @@ body {
 }
 
 /* Smooth transitions */
-* {
+html {
   scroll-behavior: smooth;
 }
 

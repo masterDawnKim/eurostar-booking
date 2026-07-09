@@ -20,7 +20,7 @@ const STEPS = [
 ] as const;
 
 export default function Home() {
-  const { bookingStep } = useBookingStore();
+  const { bookingStep, setStep, reset } = useBookingStore();
   const [selectedOrigin, setSelectedOrigin] = useState<string>("");
   const [selectedDestination, setSelectedDestination] = useState<string>("");
   const pathname = usePathname();
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 bg-[var(--color-primary)] rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 15.5L8 4h3l-2 7h5l-6 9h-3l2-5H4z" fill="currentColor" />
               </svg>
             </div>
@@ -63,7 +63,7 @@ export default function Home() {
         <div className="px-4 py-2.5 flex items-center justify-center">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-[var(--color-primary)] rounded-[6px] flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none">
+              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 15.5L8 4h3l-2 7h5l-6 9h-3l2-5H4z" fill="currentColor" />
               </svg>
             </div>
@@ -96,7 +96,7 @@ export default function Home() {
 
               <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-4 sm:pt-16 pb-10 sm:pb-20">
                 <div className="max-w-xl">
-                  <p className="text-[10px] sm:text-sm font-medium text-[var(--color-primary)] mb-0.5 sm:mb-2 tracking-wide uppercase">High-Speed Rail</p>
+                  <p className="text-xs sm:text-sm font-medium text-[var(--color-primary)] mb-0.5 sm:mb-2 tracking-wide uppercase">High-Speed Rail</p>
                   <h2 className="text-xl sm:text-5xl font-bold tracking-tight mb-1.5 sm:mb-3 leading-tight">
                     Travel across<br />Europe by train
                   </h2>
@@ -111,7 +111,7 @@ export default function Home() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-6 sm:-mt-10 relative z-10 pb-4 sm:pb-8">
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
                 {/* Map — desktop only */}
-                <div className="hidden md:block bg-white rounded-2xl border border-[var(--color-neutral-200)] p-4 shadow-sm">
+                <div className="hidden md:block bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] p-4 shadow-sm">
                   <StationMap
                     onSelectOrigin={(s) => setSelectedOrigin(s.uic)}
                     onSelectDestination={(s) => setSelectedDestination(s.uic)}
@@ -176,6 +176,31 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
+            {bookingStep !== "done" && (
+              <button
+                onClick={() => {
+                  const prev: Record<string, string> = {
+                    select: "search",
+                    passengers: "select",
+                    payment: "passengers",
+                    confirm: "payment",
+                  };
+                  const target = prev[bookingStep];
+                  if (target === "search") {
+                    reset();
+                  } else if (target) {
+                    setStep(target as "select" | "passengers" | "payment");
+                  }
+                }}
+                className="flex items-center gap-1.5 text-sm text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-700)] mb-4 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back
+              </button>
+            )}
 
             {bookingStep === "select" && <JourneyResults />}
             {bookingStep === "passengers" && <PassengerForm />}

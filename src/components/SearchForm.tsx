@@ -50,7 +50,7 @@ export default function SearchForm({
   const inputClass = "w-full px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
 
   return (
-    <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] shadow-sm flex flex-col">
+    <div className="bg-white rounded-[var(--radius-card-lg)] border border-[var(--color-neutral-200)] shadow-sm flex flex-col">
       {/* Header */}
       <div className="px-5 pt-5 pb-3">
         <div className="flex items-center justify-between mb-3">
@@ -209,7 +209,7 @@ export default function SearchForm({
         <button
           onClick={handleSearch}
           disabled={isSearching}
-          className="w-full py-3.5 bg-[var(--color-primary)] text-white rounded-xl text-base font-semibold hover:bg-[var(--color-primary-hover)] active:scale-[0.98] disabled:bg-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-500)] transition-all shadow-sm hover:shadow-md"
+          className="w-full py-3.5 bg-[var(--color-primary)] text-white rounded-[var(--radius-action)] text-base font-semibold hover:bg-[var(--color-primary-hover)] active:scale-[0.98] disabled:bg-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-500)] transition-all shadow-sm hover:shadow-md"
         >
           {isSearching ? (
             <span className="flex items-center justify-center gap-2">
