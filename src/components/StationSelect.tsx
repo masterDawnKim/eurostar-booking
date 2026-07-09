@@ -121,7 +121,7 @@ export default function StationSelect({ value, onChange, label, accentColor = "v
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search station or city..."
-                className="flex-1 bg-transparent text-sm text-[var(--color-neutral-900)] outline-none placeholder:text-[var(--color-neutral-400)]"
+                className="flex-1 bg-transparent text-[16px] text-[var(--color-neutral-900)] outline-none placeholder:text-[var(--color-neutral-400)]"
               />
               {query && (
                 <button onClick={() => setQuery("")} className="text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-600)]">

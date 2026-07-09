@@ -47,7 +47,7 @@ export default function SearchForm({
     }
   };
 
-  const inputClass = "w-full px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[15px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
+  const inputClass = "w-full px-3 py-2.5 border border-[var(--color-neutral-200)] rounded-[var(--radius-input)] bg-white text-[var(--color-neutral-900)] text-[16px] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none transition-colors";
 
   return (
     <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] shadow-sm flex flex-col">
